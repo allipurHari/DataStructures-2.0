@@ -55,3 +55,52 @@ string createString(int hours, int minutes){
         
         return ans;
     }
+
+
+// Optimized solution
+
+class Solution {
+public:
+    string createString(int hours, int minutes){
+        string stringHour = to_string(hours);
+        string stringMinute = to_string(minutes);
+
+        if(minutes < 10){
+            stringMinute = "0" + stringMinute;
+        }
+        return stringHour + ":" + stringMinute;
+    }
+    
+    
+    void function(string s, int index, int count, vector<string>&ans){
+        
+        int hours = stoi(s.substr(0,4),0,2);
+        int minutes = stoi(s.substr(4,6),0,2);
+        
+        if(hours > 11 || minutes > 59)return;
+        
+        if(count == 0){
+            ans.push_back(createString(hours, minutes));
+            return;
+        }
+        
+        for(int i = index;i < s.size();i++){
+            s[i] = '1';
+            function(s, i+1, count-1, ans);
+            s[i] = '0';
+        }
+        
+    }
+    
+    
+    vector<string> readBinaryWatch(int turnedOn) {
+        vector<string>ans;
+        int dp[12][60] = {0};
+        
+        string s = "0000000000";
+        
+        function(s, 0, turnedOn, ans);
+        
+        return ans;
+    }
+};
